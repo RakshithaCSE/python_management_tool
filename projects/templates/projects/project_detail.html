@@ -1,0 +1,499 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Details{% endblock %}
+
+{% block content %}
+
+<!-- Project Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h1>{{ project.name }}</h1>
+
+    <div>
+
+        <a href="{% url 'project-list' %}"
+           class="btn btn-secondary">
+            Back to Projects
+        </a>
+
+        <a href="{% url 'project-update' project.pk %}"
+           class="btn btn-primary">
+            Edit Project
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Project Information -->
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+            Project Information
+        </h4>
+
+        <p>
+            <strong>Description:</strong>
+            {{ project.description|default:"No description available." }}
+        </p>
+
+        <p>
+            <strong>Owner:</strong>
+            {{ project.created_by.username }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ project.get_status_display }}
+        </p>
+
+        <p>
+            <strong>Priority:</strong>
+            {{ project.get_priority_display }}
+        </p>
+
+        <p>
+            <strong>Budget:</strong>
+            ₹{{ project.budget }}
+        </p>
+
+        <p>
+            <strong>Progress:</strong>
+            {{ project.progress }}%
+        </p>
+
+        <p>
+            <strong>Start Date:</strong>
+            {{ project.start_date }}
+        </p>
+
+        <p>
+            <strong>End Date:</strong>
+            {{ project.end_date|default:"Not specified" }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- Project Features -->
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+            Project Management
+        </h4>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{% url 'task-create' %}"
+               class="btn btn-success">
+                + Create Task
+            </a>
+
+            <a href="{% url 'task-list' %}"
+               class="btn btn-primary">
+                View Tasks
+            </a>
+
+            <a href="{% url 'kanban-board' %}"
+               class="btn btn-info">
+                Kanban Board
+            </a>
+
+            <a href="{% url 'project-report' %}"
+               class="btn btn-warning">
+                Project Reports
+            </a>
+
+            <a href="{% url 'analytics-dashboard' %}"
+               class="btn btn-dark">
+                Analytics Dashboard
+            </a>
+
+            <a href="{% url 'time-tracking' %}"
+               class="btn btn-secondary">
+                Time Tracking
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Tasks -->
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h4>
+                Tasks
+            </h4>
+
+            <a href="{% url 'task-create' %}"
+               class="btn btn-success">
+                + Create Task
+            </a>
+
+        </div>
+
+        {% if tasks %}
+
+            <div class="list-group">
+
+                {% for task in tasks %}
+
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h5 class="mb-1">
+                            {{ task.title }}
+                        </h5>
+
+                        <p class="mb-1">
+                            {{ task.description|default:"No description available." }}
+                        </p>
+
+                        <small class="text-muted">
+
+                            Status:
+                            {{ task.get_status_display }}
+
+                            |
+
+                            Priority:
+                            {{ task.get_priority_display }}
+
+                            |
+
+                            Due Date:
+                            {{ task.due_date|default:"Not specified" }}
+
+                        </small>
+
+                    </div>
+
+                    <a href="{% url 'task-detail' task.pk %}"
+                       class="btn btn-primary btn-sm">
+
+                        View Task
+
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="text-muted">
+                No tasks available for this project.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- GANTT TIMELINE -->
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            Project Timeline - Gantt Chart
+        </h4>
+
+
+        <!-- Overall Project Progress -->
+
+        <div class="mb-4">
+
+            <div class="d-flex justify-content-between mb-2">
+
+                <strong>
+                    Overall Project Progress
+                </strong>
+
+                <strong>
+                    {{ project.progress }}%
+                </strong>
+
+            </div>
+
+            <div
+                class="progress"
+                style="height: 30px;">
+
+                <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: {{ project.progress }}%;">
+
+                    {{ project.progress }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Project Dates -->
+
+        <div class="row mb-4">
+
+            <div class="col-md-6">
+
+                <div class="border rounded p-3">
+
+                    <strong>
+                        Project Start
+                    </strong>
+
+                    <br>
+
+                    {{ project.start_date }}
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <div class="border rounded p-3">
+
+                    <strong>
+                        Project End
+                    </strong>
+
+                    <br>
+
+                    {{ project.end_date|default:"Not specified" }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Timeline Header -->
+
+        <div class="row fw-bold border-bottom pb-2 mb-2">
+
+            <div class="col-md-4">
+                Task
+            </div>
+
+            <div class="col-md-2">
+                Status
+            </div>
+
+            <div class="col-md-2">
+                Due Date
+            </div>
+
+            <div class="col-md-4">
+                Progress
+            </div>
+
+        </div>
+
+
+        <!-- Timeline Tasks -->
+
+        {% for task in tasks %}
+
+        <div class="row align-items-center border-bottom py-3">
+
+
+            <!-- Task -->
+
+            <div class="col-md-4">
+
+                <strong>
+                    {{ task.title }}
+                </strong>
+
+                <br>
+
+                <small class="text-muted">
+
+                    {{ task.description|default:"No description available." }}
+
+                </small>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div class="col-md-2">
+
+                {% if task.status == 'done' %}
+
+                    <span class="badge bg-success">
+                        Done
+                    </span>
+
+                {% elif task.status == 'in_progress' %}
+
+                    <span class="badge bg-warning text-dark">
+                        In Progress
+                    </span>
+
+                {% elif task.status == 'review' %}
+
+                    <span class="badge bg-info">
+                        Review
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-secondary">
+                        To Do
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Due Date -->
+
+            <div class="col-md-2">
+
+                {{ task.due_date|default:"Not specified" }}
+
+            </div>
+
+
+            <!-- Progress -->
+
+            <div class="col-md-4">
+
+                <div
+                    class="progress"
+                    style="height: 30px;">
+
+                    {% if task.status == 'done' %}
+
+                        <div
+                            class="progress-bar bg-success"
+                            style="width: 100%;">
+
+                            100%
+
+                        </div>
+
+                    {% elif task.status == 'review' %}
+
+                        <div
+                            class="progress-bar bg-info"
+                            style="width: 75%;">
+
+                            75%
+
+                        </div>
+
+                    {% elif task.status == 'in_progress' %}
+
+                        <div
+                            class="progress-bar bg-warning text-dark"
+                            style="width: 50%;">
+
+                            50%
+
+                        </div>
+
+                    {% else %}
+
+                        <div
+                            class="progress-bar"
+                            style="width: 10%;">
+
+                            10%
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-secondary mt-3">
+
+            No tasks available for the timeline.
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- Legend -->
+
+        <div class="mt-4">
+
+            <h6>
+                Timeline Status
+            </h6>
+
+            <span class="badge bg-secondary me-2">
+                To Do
+            </span>
+
+            <span class="badge bg-warning text-dark me-2">
+                In Progress
+            </span>
+
+            <span class="badge bg-info me-2">
+                Review
+            </span>
+
+            <span class="badge bg-success">
+                Done
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Delete Project -->
+
+<div class="mb-4">
+
+    <a
+        href="{% url 'project-delete' project.pk %}"
+        class="btn btn-danger">
+
+        Delete Project
+
+    </a>
+
+</div>
+
+{% endblock %}

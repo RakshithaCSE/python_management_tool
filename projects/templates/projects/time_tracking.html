@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Time Tracking{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h1>Time Tracking</h1>
+
+    <a href="/" class="btn btn-secondary">
+        Back to Projects
+    </a>
+
+</div>
+
+
+<!-- Total Hours -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h5 class="card-title">
+            Total Hours Logged
+        </h5>
+
+        <h2>
+            {{ total_hours }} hours
+        </h2>
+
+    </div>
+
+</div>
+
+
+<!-- Add Time Entry -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            Log Time
+        </h4>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Log Time
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Time Entries -->
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <h4 class="mb-4">
+            Time Entries
+        </h4>
+
+        {% if time_entries %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>
+                                Task
+                            </th>
+
+                            <th>
+                                User
+                            </th>
+
+                            <th>
+                                Hours
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for entry in time_entries %}
+
+                        <tr>
+
+                            <td>
+                                {{ entry.task.title }}
+                            </td>
+
+                            <td>
+                                {{ entry.user.username }}
+                            </td>
+
+                            <td>
+                                {{ entry.hours }}
+                            </td>
+
+                            <td>
+                                {{ entry.date }}
+                            </td>
+
+                            <td>
+                                {{ entry.description|default:"-" }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <p class="text-muted">
+                No time entries recorded yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

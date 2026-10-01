@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+
+<!-- Task Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h1>{{ task.title }}</h1>
+
+    <div>
+
+        <a href="{% url 'task-update' task.pk %}"
+           class="btn btn-primary">
+            Edit Task
+        </a>
+
+        <a href="{% url 'task-list' %}"
+           class="btn btn-secondary">
+            Back to Tasks
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Task Information -->
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <h4>Task Information</h4>
+
+        <p>
+            <strong>Project:</strong>
+            {{ task.project.name }}
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            {{ task.description|default:"No description available." }}
+        </p>
+
+        <p>
+            <strong>Assigned To:</strong>
+            {{ task.assigned_to.username|default:"Not assigned" }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ task.get_status_display }}
+        </p>
+
+        <p>
+            <strong>Priority:</strong>
+            {{ task.get_priority_display }}
+        </p>
+
+        <p>
+            <strong>Due Date:</strong>
+            {{ task.due_date }}
+        </p>
+
+        <p>
+            <strong>Estimated Hours:</strong>
+            {{ task.estimated_hours }}
+        </p>
+
+        <p>
+            <strong>Actual Hours:</strong>
+            {{ task.actual_hours }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- Comments -->
+<div class="card shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <h4>Comments</h4>
+
+        {% for comment in comments %}
+
+        <div class="border rounded p-3 mb-3">
+
+            <strong>
+                {{ comment.user.username }}
+            </strong>
+
+            <small class="text-muted">
+                {{ comment.created_at }}
+            </small>
+
+            <p class="mb-0 mt-2">
+                {{ comment.content }}
+            </p>
+
+        </div>
+
+        {% empty %}
+
+        <p class="text-muted">
+            No comments yet.
+        </p>
+
+        {% endfor %}
+
+
+        <hr>
+
+        <h5>Add a Comment</h5>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ comment_form.as_p }}
+
+            <button
+                type="submit"
+                name="comment_submit"
+                class="btn btn-primary">
+
+                Add Comment
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Attachments -->
+<div class="card shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <h4>Attachments</h4>
+
+        {% for attachment in attachments %}
+
+        <div class="border rounded p-3 mb-3">
+
+            <p class="mb-1">
+
+                <strong>
+                    {{ attachment.file.name }}
+                </strong>
+
+            </p>
+
+            {% if attachment.description %}
+
+                <p class="mb-1">
+                    {{ attachment.description }}
+                </p>
+
+            {% endif %}
+
+            <small class="text-muted">
+
+                Uploaded by
+                {{ attachment.uploaded_by.username }}
+
+            </small>
+
+        </div>
+
+        {% empty %}
+
+        <p class="text-muted">
+            No attachments yet.
+        </p>
+
+        {% endfor %}
+
+
+        <hr>
+
+        <h5>Upload Attachment</h5>
+
+        <form
+            method="post"
+            enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ attachment_form.as_p }}
+
+            <button
+                type="submit"
+                name="attachment_submit"
+                class="btn btn-primary">
+
+                Upload File
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Activity Feed -->
+<div class="card shadow-sm mt-4 mb-4">
+
+    <div class="card-body">
+
+        <h4>Activity Feed</h4>
+
+        {% for activity in activities %}
+
+        <div class="border-start border-3 ps-3 mb-3">
+
+            <div>
+
+                <strong>
+                    {{ activity.user.username }}
+                </strong>
+
+                <span class="badge bg-secondary ms-2">
+                    {{ activity.action }}
+                </span>
+
+            </div>
+
+            <p class="mb-1 mt-1">
+                {{ activity.details }}
+            </p>
+
+            <small class="text-muted">
+                {{ activity.created_at }}
+            </small>
+
+        </div>
+
+        {% empty %}
+
+        <p class="text-muted">
+            No activity yet.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

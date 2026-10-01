@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Kanban Board{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">Kanban Board</h1>
+
+<div class="row">
+
+    <!-- To Do -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <strong>To Do</strong>
+            </div>
+
+            <div class="card-body kanban-column"
+                 data-status="todo">
+
+                {% for task in todo_tasks %}
+                    <div class="card mb-3 task-card"
+                         draggable="true"
+                         data-task-id="{{ task.id }}">
+
+                        <div class="card-body">
+                            <h5>{{ task.title }}</h5>
+                            <p class="mb-0">
+                                {{ task.project.name }}
+                            </p>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No tasks</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- In Progress -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <strong>In Progress</strong>
+            </div>
+
+            <div class="card-body kanban-column"
+                 data-status="in_progress">
+
+                {% for task in in_progress_tasks %}
+                    <div class="card mb-3 task-card"
+                         draggable="true"
+                         data-task-id="{{ task.id }}">
+
+                        <div class="card-body">
+                            <h5>{{ task.title }}</h5>
+                            <p class="mb-0">
+                                {{ task.project.name }}
+                            </p>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No tasks</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Review -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <strong>Review</strong>
+            </div>
+
+            <div class="card-body kanban-column"
+                 data-status="review">
+
+                {% for task in review_tasks %}
+                    <div class="card mb-3 task-card"
+                         draggable="true"
+                         data-task-id="{{ task.id }}">
+
+                        <div class="card-body">
+                            <h5>{{ task.title }}</h5>
+                            <p class="mb-0">
+                                {{ task.project.name }}
+                            </p>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No tasks</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Done -->
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <strong>Done</strong>
+            </div>
+
+            <div class="card-body kanban-column"
+                 data-status="done">
+
+                {% for task in done_tasks %}
+                    <div class="card mb-3 task-card"
+                         draggable="true"
+                         data-task-id="{{ task.id }}">
+
+                        <div class="card-body">
+                            <h5>{{ task.title }}</h5>
+                            <p class="mb-0">
+                                {{ task.project.name }}
+                            </p>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No tasks</p>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const taskCards = document.querySelectorAll('.task-card');
+const columns = document.querySelectorAll('.kanban-column');
+
+taskCards.forEach(card => {
+
+    card.addEventListener('dragstart', function(event) {
+        event.dataTransfer.setData(
+            'text/plain',
+            this.dataset.taskId
+        );
+    });
+
+});
+
+columns.forEach(column => {
+
+    column.addEventListener('dragover', function(event) {
+        event.preventDefault();
+    });
+
+    column.addEventListener('drop', function(event) {
+
+        event.preventDefault();
+
+        const taskId = event.dataTransfer.getData('text/plain');
+        const taskCard = document.querySelector(
+            `[data-task-id="${taskId}"]`
+        );
+    if (taskCard) {
+    this.appendChild(taskCard);
+
+    fetch(`/tasks/${taskId}/update-status/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `status=${this.dataset.status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Failed to update task status.');
+        }
+    });
+}
+      
+    });
+
+});
+
+</script>
+
+{% endblock %}

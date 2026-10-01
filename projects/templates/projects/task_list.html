@@ -1,0 +1,63 @@
+```html
+{% extends 'base.html' %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Tasks</h1>
+    <a href="{% url 'task-create' %}" class="btn btn-primary">
+        Create Task
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        {% for task in tasks %}
+
+        <div class="border rounded p-3 mb-3">
+
+            <h5>{{ task.title }}</h5>
+
+            <p class="mb-1">
+                <strong>Project:</strong> {{ task.project.name }}
+            </p>
+
+            <p class="mb-1">
+                <strong>Status:</strong> {{ task.get_status_display }}
+            </p>
+
+            <p class="mb-1">
+                <strong>Priority:</strong> {{ task.get_priority_display }}
+            </p>
+
+            <p class="mb-1">
+                <strong>Due Date:</strong> {{ task.due_date }}
+            </p>
+
+            <a href="{% url 'task-detail' task.pk %}"
+               class="btn btn-outline-primary btn-sm mt-2">
+                View Task
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-info">
+            No tasks available yet.
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+```
+
+/* Save the file.
+
+Then **don't do anything else yet**. Tell me **“done”**, and we'll test the Task page.*/

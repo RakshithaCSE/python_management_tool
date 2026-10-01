@@ -12,6 +12,7 @@ A web-based Project Management Tool developed using **Python and Django** as par
 The application helps users manage projects, tasks, deadlines, team collaboration, files, progress tracking, Kanban boards, reports, analytics, and time tracking.
 The application helps users manage projects, tasks, deadlines, team collaboration, files, progress tracking, Kanban boards, reports, analytics, and time tracking.
 
+
 ✨ Key Features:
 📁 Project creation and management
 📋 Task creation and assignment
@@ -24,14 +25,18 @@ The application helps users manage projects, tasks, deadlines, team collaboratio
 📌 Kanban board with drag-and-drop
 📈 Reports and analytics
 ⏱️ Time tracking
+
 🛠️ Technologies Used
+
 Backend: Python, Django
 Frontend: HTML, CSS, Bootstrap, JavaScript
 Database: MySQL / SQLite
 Version Control: Git, GitHub
 Deployment: PythonAnywhere
 
+
 📂 Project Structure:
+
 python_management_tool/
 │
 ├── manage.py
@@ -43,7 +48,9 @@ python_management_tool/
 ├── requirements.txt
 ├── README.md
 └── report intern python.pdf
+
 How to Run Locally:
+
 1. Clone the repository
      git clone https://github.com/RakshithaCSE/python_management_tool.git
      cd python_management_tool
@@ -60,6 +67,7 @@ How to Run Locally:
   python manage.py runserver
 
 Open:
+
 http://127.0.0.1:8000/
 🎯 Project Objectives
 To develop a practical project management application.
@@ -69,6 +77,7 @@ To implement collaboration, reporting, and progress-tracking features.
 To gain practical experience in full-stack development and deployment.
 
 📚 Learning Outcomes:
+
 Through this project, I gained hands-on experience in:
 Python and Django development
 Database management
@@ -82,6 +91,7 @@ Web deployment
 Full-stack application development
 
 🚀 Future Enhancements:
+
 User authentication and role-based access
 Email notifications
 Advanced project analytics
@@ -90,6 +100,7 @@ Improved mobile responsiveness
 Additional reporting features
 
 👩‍💻 Developer:
+
 Rakshitha M V
 Computer Science & Engineering Student
 Python Full Stack Intern

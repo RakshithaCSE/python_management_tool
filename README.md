@@ -15,23 +15,37 @@ The application helps users manage projects, tasks, deadlines, team collaboratio
 
 ✨ Key Features:
 📁 Project creation and management
+
 📋 Task creation and assignment
+
 ⏰ Deadline and priority management
+
 📊 Project progress tracking
+
 📅 Timeline and Gantt-style tracking
+
 👥 Team collaboration
+
 💬 Comments and activity updates
+
 📎 File and task attachment sharing
+
 📌 Kanban board with drag-and-drop
+
 📈 Reports and analytics
+
 ⏱️ Time tracking
 
 🛠️ Technologies Used
 
 Backend: Python, Django
+
 Frontend: HTML, CSS, Bootstrap, JavaScript
+
 Database: MySQL / SQLite
+
 Version Control: Git, GitHub
+
 Deployment: PythonAnywhere
 
 
@@ -69,6 +83,7 @@ How to Run Locally:
 Open:
 
 http://127.0.0.1:8000/
+
 🎯 Project Objectives
 To develop a practical project management application.
 To apply Python and Django concepts in a real-world project.
@@ -79,25 +94,26 @@ To gain practical experience in full-stack development and deployment.
 📚 Learning Outcomes:
 
 Through this project, I gained hands-on experience in:
-Python and Django development
-Database management
-CRUD operations
-HTML, CSS and Bootstrap
-JavaScript and AJAX
-File handling
-Git and GitHub
-Testing and debugging
-Web deployment
-Full-stack application development
+
+Python and Django development,
+Database management,
+CRUD operations,
+HTML, CSS and Bootstrap,
+JavaScript and AJAX,
+File handling,
+Git and GitHub,
+Testing and debugging,
+Web deployment,
+Full-stack application development.
 
 🚀 Future Enhancements:
 
-User authentication and role-based access
-Email notifications
-Advanced project analytics
-Calendar integration
-Improved mobile responsiveness
-Additional reporting features
+User authentication and role-based access,
+Email notifications,
+Advanced project analytics,
+Calendar integration,
+Improved mobile responsiveness,
+Additional reporting features,
 
 👩‍💻 Developer:
 

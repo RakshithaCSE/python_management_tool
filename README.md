@@ -53,14 +53,25 @@ Deployment: PythonAnywhere
 
 python_management_tool/
 │
+
+
 ├── manage.py
+
 ├── pm_tool/
+
 ├── projects/
+
 ├── media/
+
 ├── staticfiles/
+
+
 ├── database.sql
+
 ├── requirements.txt
+
 ├── README.md
+
 └── report intern python.pdf
 
 How to Run Locally:

@@ -1,6 +1,48 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+local_settings.py
 db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
 .env
+.envrc
+
+# Build / distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.Python
+
+# Testing / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.pytest_cache/
+.hypothesis/
+
+# IDE / editors
+.vscode/
+.idea/
+tempCodeRunnerFile.py
+
+# Project deployment archive
 project_deploy.zip
